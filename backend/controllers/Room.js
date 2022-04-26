@@ -1,7 +1,14 @@
 import { room } from "../models/Room.js"
 
-export const getRoom = (req, res) => {
-    res.send('It works');
+export const getRoom = async (req, res) => {
+    try {
+        const rooms = await room.find();
+        console.log(rooms);
+        res.status(200).json(rooms);
+    }
+    catch(error) {
+        console.log({message: error.message});
+    }
 }
 
 export const addRoom = (req, res) => {

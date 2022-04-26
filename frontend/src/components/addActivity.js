@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DateTimePicker from 'react-datetime-picker';
 
@@ -10,6 +10,16 @@ const AddActivity = () => {
     });
     const [startDateTime, setStartDateTime] = useState(new Date());
     const [endDateTime, setEndDateTime] = useState(new Date());
+    const [roomList, setRoomList] = useState( [1,2,3] );
+
+    useEffect(() => {
+        const getRoomList = async () => {
+            const response = await axios.get("http://localhost:5000/rooms");
+            const roomList = await response.data;
+            setRoomList(roomList);
+        };
+        getRoomList();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,10 +57,12 @@ const AddActivity = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="Room Number" className="form-label">Room Number</label>
-                    <textarea 
-                        className="form-control" id="Room Number" placeholder=""
-                        onChange = {(e) => setActivityData({...activityData, roomNumber: e.target.value})}
-                    />
+                    <select className="form-control" name="country" value={activityData.roomNumber} 
+                        onChange={(e) => setActivityData({...activityData, roomNumber:e.target.value})}>  
+                        {roomList.map((e, key) => {  
+                            return <option key={key} value={e.roomNumber}>{e.roomNumber}</option>;  
+                        })}  
+                    </select> 
                 </div>
                 <div className="mb-3"> 
                 <label htmlFor="Room Number" className="form-label">From</label>
