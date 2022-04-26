@@ -6,10 +6,15 @@ import AddRoom from "./components/addRoom"
 
 const App = () => {
     return (
-        <div>
-            <h1>Room Allocation App</h1>
-            <AddRoom/>
+      <Router>
+        <div className="container">
+        {/* <Navbar /> */}
+        <br/>
+        <h1> Room Allocation App</h1>
+        <Route path="/user" exact component={AddUser} />
+        <Route path="/room" exact component={AddRoom} />
         </div>
+      </Router>
     );
-}
+  }
 export default App;
