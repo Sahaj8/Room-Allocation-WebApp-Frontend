@@ -1,9 +1,10 @@
 import express from 'express';
-import { getRoom, addRoom } from '../controllers/Room.js';
+import { getRoom, addRoom, deleteRoom } from '../controllers/Room.js';
 
 const router = express.Router();
 
 router.get("/", getRoom);
-router.get("/add", addRoom);
+router.post("/add", addRoom);
+router.delete("/delete", deleteRoom);
 
 export default router;

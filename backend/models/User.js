@@ -13,6 +13,12 @@ const userSchema = mongoose.Schema({
         unique: true,
         trim: true
     },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 5
+    },
     description: String,
     isAdmin: Boolean,
     createdAt: {
@@ -21,5 +27,6 @@ const userSchema = mongoose.Schema({
     },
 });
 
-const user = mongoose.model('user', userSchema);
-export default user;
+export const User = mongoose.model('User', userSchema);
+// module.exports = user;
+// export default user;
