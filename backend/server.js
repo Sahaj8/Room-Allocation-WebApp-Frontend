@@ -16,6 +16,7 @@ app.use(cors());
 app.use("/", mainPageRoutes);
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
+app.use("/activity", activityRoutes);
 
 // const CONNECTION_URL = "mongodb+srv://RoomAllocationAppDB:RoomAllocationAppDB123@cluster0.wzasi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const CONNECTION_URL = "mongodb+srv://Sahajdb:Sahajdb08@cluster0.ashgs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
