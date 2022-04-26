@@ -1,8 +1,32 @@
 import { User } from "../models/User.js"
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+import bcryptjs from "bcryptjs"
+import jwt from "jsonwebtoken"
+// const bcrypt = require('bcryptjs')
 
-export const getUser = (req, res) => {
+export const getUser = async (req, res) => {
+    let token
+
+    if ( req.token ) {
+        try {
+            // Get token from header
+            token = req.token;
+
+            // Verify token
+            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+            // Get user from the token
+            let userdata = await User.findById(decoded.id);
+            res.status(201).send({user:userdata});
+        } catch (error) {
+            console.log(error)
+            res.status(401)
+            throw new Error('Not authorized')
+        }
+    }
+    else {
+        res.status(401).send("No token!");
+        throw new Error('Not authorized, no token')
+    }
     res.send('It works');
 }
 
@@ -29,7 +53,7 @@ export const addUser = async (req, res) => {
     
       // Hash password
       const salt = await bcrypt.genSalt(10)
-      const hashedPassword = await bcrypt.hash(password, salt)
+      const hashedPassword = await bcryptjs.hash(password, salt)
     
 
     const newUser = new User({username,usermail,hashedPassword,description,isAdmin});
