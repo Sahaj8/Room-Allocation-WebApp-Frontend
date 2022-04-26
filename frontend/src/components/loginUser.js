@@ -27,7 +27,7 @@ const LoginUser = () => {
 
     return (
         <div className="container">
-            <h2>Add User</h2>
+            <h2>Login User</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="inputUserName" className="form-label">Username</label>
@@ -45,13 +45,13 @@ const LoginUser = () => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="inputPassword" className="form-label">Description</label>
+                    <label htmlFor="inputPassword" className="form-label">Password</label>
                     <input 
                         type='password' className="form-control" id="inputPassword" placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Add</button>
+                <button type="submit" className="btn btn-primary">Login</button>
             </form>
         </div>
     );
