@@ -10,6 +10,14 @@ const activitySchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    startDateTime: {
+        type: Date,
+        default: new Date()
+    },
+    endDateTime: {
+        type: Date,
+        default: new Date()
+    }
 });
 
 const Activity = mongoose.model('Activity', activitySchema);

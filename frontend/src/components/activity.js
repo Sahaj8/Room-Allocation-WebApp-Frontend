@@ -9,8 +9,9 @@ const Activity = (activity) => {
             <h4>{activity.roomNumber}</h4>
             <h4>{activity.status}</h4>
             <h4>{activity.createdAt}</h4> 
+            <h4>{activity.startDateTime}</h4>
+            <h4>{activity.endDateTime}</h4>
         </>
     );
 }
-
 export default Activity;

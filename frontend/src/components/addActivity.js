@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
+import DateTimePicker from 'react-datetime-picker';
 
 const AddActivity = () => {
     const [activityData, setActivityData] = useState({
         applicant: '',
         activity: '',
-        roomNumber: '', 
-        status: "pending",
-        createdAt: new Date()
+        roomNumber: '',
     });
+    const [startDateTime, setStartDateTime] = useState(new Date());
+    const [endDateTime, setEndDateTime] = useState(new Date());
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(activityData);
-
+        const newActivity = {
+            applicant: activityData.applicant,
+            activity: activityData.activity,
+            roomNumber: activityData.roomNumber, 
+            status: "pending",
+            createdAt: new Date(),
+            startDateTime: startDateTime,
+            endDateTime: endDateTime
+        }
         axios.post('http://localhost:5000/activity/add', activityData)
             .then(res => console.log(res.data))
             .catch(error => console.log(error)); 
-        
     };
     return (
         <div className="container">
@@ -43,6 +51,14 @@ const AddActivity = () => {
                         className="form-control" id="Room Number" placeholder=""
                         onChange = {(e) => setActivityData({...activityData, roomNumber: e.target.value})}
                     />
+                </div>
+                <div className="mb-3"> 
+                <label htmlFor="Room Number" className="form-label">From</label>
+                    <DateTimePicker onChange={setStartDateTime} value={startDateTime} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="Room Number" className="form-label">To</label>
+                    <DateTimePicker onChange={setEndDateTime} value={endDateTime} />
                 </div>
                 <button type="submit" className="btn btn-primary">Add</button>
             </form>
