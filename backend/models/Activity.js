@@ -3,9 +3,8 @@ import mongoose from 'mongoose';
 const activitySchema = mongoose.Schema({
     // To Do: Add schema related to cards that display current activities on the front page.
     applicant: String,
-    message: String,
-    roomNumber: String, 
     activity: String,
+    roomNumber: String, 
     status: String,
     createdAt: {
         type: Date,
@@ -13,5 +12,5 @@ const activitySchema = mongoose.Schema({
     },
 });
 
-const activity = mongoose.model('activity', activitySchema);
-export default activity;
+const Activity = mongoose.model('Activity', activitySchema);
+export default Activity;

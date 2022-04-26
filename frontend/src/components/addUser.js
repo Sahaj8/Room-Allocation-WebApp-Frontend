@@ -1,10 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const AddUser = () => {
     const [name, setName] = useState("");
     const [mail, setMail] = useState("");
     const [desc, setDesc] = useState("");
+
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if(token)
+        {
+            axios.get("http://localhost:3001/users/", {token:token})
+                .then((res) => {
+                    console.log(res);
+                    if(res.status===201)
+                    {  
+                        if(!res.user.isAdmin) window.location="/";
+                    }
+                    else
+                    {   
+                        alert("Internal Server Error : " + res.status);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    // console.log(res.status);
+                    alert("Internal Server Error");
+                })
+        }
+        else  window.location="/login";
+    },[])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
