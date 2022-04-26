@@ -42,8 +42,8 @@ export const addUser = async (req, res) => {
     const username = req.body.username;
     const usermail = req.body.usermail;
     const password = req.body.password;
-    const description = req.body.description;
-    const isAdmin = req.body.isAdmin;
+    // const description = req.body.description;
+    // const isAdmin = req.body.isAdmin;
     
     if (!username || !usermail || !password) {
         res.status(400)
@@ -62,12 +62,14 @@ export const addUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
     
-    
-    const newUser = new User({username,usermail,hashedPassword,description,isAdmin});
+    const user = req.body;
+    user.password = hashedPassword;
+    // const newUser = new User({username,usermail,hashedPassword,description,isAdmin});
+    const newUser = new User(user);
     console.log(newUser);
     newUser.save()
-    .then(() => res.json({msg:'User added!',newUser}))
-    .catch(err => res.status(400).send('Error: ' + err.msg));
+    .then(() => res.send({msg:'User added!',newUser}))
+    .catch(err => res.status(400).send('Error: ' + err.message));
     // return res.json({msg:"we are inside"});
 }
 
@@ -76,14 +78,14 @@ export const deleteUser = (req, res) => {
 }
 
 export const loginUser = async (req, res) => {
-    const { username, useremail, password } = req.body
+    const { username, usermail, password } = req.body
   
     // Check for user email
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash("Sahaj", salt)
     console.log("hash: ");
     console.log(hashedPassword);
-    const user = await User.findOne({ useremail:useremail })
+    const user = await User.findOne({ usermail:usermail })
     console.log(user._id);
     if (user && (await bcrypt.compare(password, user.password))) {
         const payload = { id: user._id };

@@ -33,6 +33,16 @@ export const NavBar = () => {
         }
     },[])
 
+    const handlelogout = async (e) => {
+        e.preventDefault();
+        try {
+            localStorage.clear();
+            window.location.href="/"
+        } catch (error) {
+            console.log(error.response.data.msg);
+        }
+    };
+
     return (
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
         <Link to="/" className="navbar-brand">Room Allocation App</Link>
@@ -61,7 +71,8 @@ export const NavBar = () => {
                 <Link to="/addActivity" className="nav-link">Request Room</Link>
                 </li>
                 <li className="navbar-item">
-                <Link to="/" className="nav-link">Logout</Link>
+                {/* <Link to="/" className="nav-link">Logout</Link> */}
+                <button onClick={handlelogout}>Logout</button>
                 </li>
               </>
               :
