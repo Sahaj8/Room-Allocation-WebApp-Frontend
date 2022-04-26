@@ -5,7 +5,7 @@ const AddUser = () => {
     const [name, setName] = useState("");
     const [mail, setMail] = useState("");
     const [desc, setDesc] = useState("");
-
+    
     useEffect(()=>{
         const token = localStorage.getItem('token');
         if(token)
