@@ -6,16 +6,18 @@ const AddUser = () => {
     const [mail, setMail] = useState("");
     const [desc, setDesc] = useState("");
 
-    useEffect(()=>{
+    useEffect( ()=>{
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:3001/users/", {token:token})
+            axios.get("http://localhost:5000/users/", {
+                headers: { Authorization: token },
+              })
                 .then((res) => {
-                    console.log(res);
+                    console.log(res.data.user);
                     if(res.status===201)
                     {  
-                        if(!res.user.isAdmin) window.location="/";
+                        if(res.data.user.isAdmin === false) window.location="/";
                     }
                     else
                     {   
