@@ -7,11 +7,13 @@ import AddRoom from "./components/addRoom"
 import LoginUser from "./components/loginUser";
 import ActivityList from "./components/activityList";
 import AddActivity from "./components/addActivity";
+import { NavBar } from "./components/navBar";
 
 const App = () => {
     return (
       <Router>
         <div className="container">
+            <NavBar/>
             <h1> Room Allocation App</h1>
             <Routes>
                 <Route path="/" element={<ActivityList/>} exact />

@@ -9,12 +9,8 @@ const roomSchema = mongoose.Schema({
         trim: true,
         minlength: 3
     },
-    size: Number,
-    description: String,
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
+    // size: Number,
+    // description: String,
 });
 
 export const room = mongoose.model('room', roomSchema);
