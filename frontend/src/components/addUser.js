@@ -52,7 +52,17 @@ const AddUser = () => {
         console.log(newUser);
 
         axios.post('http://localhost:5000/users/add', newUser)
-            .then(res => console.log(res.data));
+        .then(res => {
+            console.log(res.data)
+            if(res.status === 401){
+                alert(res.data);
+            }
+            else window.location.href="/user/list"
+        })
+        .catch(err => {
+            console.log(err);
+            alert("User already exist");
+        });
         
     };
 

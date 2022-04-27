@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 
 dotenv.config();
-// const bcrypt = require('bcryptjs')
 
 export const userList = async (req,res) => {
     try {
@@ -34,10 +33,16 @@ export const updateUser = async (req,res) => {
     try {
         const {id} = req.params;
 
-        const updatedUser = await User.findByIdAndUpdate(id,req.body,{new:true});
-
-        console.log(updatedUser);
-        res.status(201).json(updatedUser);
+        const userExist = await User.findOne({ usermail:req.body.usermail })
+        if(userExist){
+            res.status(401).send("User already exists with given email");
+        }
+        else{
+            const updatedUser = await User.findByIdAndUpdate(id,req.body,{new:true});
+            
+            console.log(updatedUser);
+            res.status(201).json(updatedUser);
+        }
 
     } catch (error) {
         res.status(401).json(error);
@@ -47,24 +52,19 @@ export const updateUser = async (req,res) => {
 export const getUser = async (req, res) => {
     let token
     console.log("inside getuser");
-    // return res.json({msg:"we are inside"});
 
     if ( req.header("Authorization") ) {
         try {
-            // Get token from header
             token = req.header("Authorization");
-
-            // Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-            // Get user from the token
             let userdata = await User.findById(decoded.id);
             console.log(userdata);
             res.status(201).send({user:userdata});
         } catch (error) {
             console.log(error)
             res.status(401)
-            throw new Error('Not authorized')
+            // throw new Error('Not authorized')
         }
     }
     else {
@@ -84,16 +84,16 @@ export const addUser = async (req, res) => {
     // const isAdmin = req.body.isAdmin;
     
     if (!username || !usermail || !password) {
-        res.status(400)
-        throw new Error('Please add all fields')
+        res.status(401)
+        // throw new Error('Please add all fields')
     }
     
     // Check if user exists
     const userExists = await User.findOne({ usermail:usermail })
     console.log(userExists);
     if (userExists) {
-        res.status(400)
-        throw new Error('User already exists')
+        return res.status(401).send("User already exists")
+        // throw new Error('User already exists')
     }
     
     // Hash password
@@ -102,12 +102,11 @@ export const addUser = async (req, res) => {
     
     const user = req.body;
     user.password = hashedPassword;
-    // const newUser = new User({username,usermail,hashedPassword,description,isAdmin});
     const newUser = new User(user);
     console.log(newUser);
     newUser.save()
-    .then(() => res.send({msg:'User added!',newUser}))
-    .catch(err => res.status(400).send('Error: ' + err.message));
+    .then(() => res.status(201).send({msg:'User added!',newUser}))
+    .catch(err => res.status(401).send('Error: ' + err.message));
     // return res.json({msg:"we are inside"});
 }
 
@@ -146,7 +145,7 @@ export const loginUser = async (req, res) => {
             token: token,
         })
     } else {
-      res.status(400).send("No user found");
+      res.status(401).send("No user found");
     //   throw new Error('Invalid credentials')
     }
 }

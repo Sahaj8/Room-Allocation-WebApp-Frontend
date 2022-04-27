@@ -27,11 +27,18 @@ export const editRoom = async (req,res) => {
 export const updateRoom = async (req,res) => {
     try {
         const {id} = req.params;
-
-        const updatedRoom = await Room.findByIdAndUpdate(id,req.body,{new:true});
-
-        console.log(updatedRoom);
-        res.status(201).json(updatedRoom);
+        const roomExists = await Room.findOne(req.body)
+        console.log(roomExists);
+        if (roomExists) {
+            res.status(401).send("Room already Exists");
+            // throw new Error('Room already exists')
+        }
+        else{
+            const updatedRoom = await Room.findByIdAndUpdate(id,req.body,{new:true});
+    
+            console.log(updatedRoom);
+            res.status(201).json(updatedRoom);
+        }
 
     } catch (error) {
         res.status(401).json(error);
@@ -56,15 +63,15 @@ export const addRoom = async (req, res) => {
     // const description = req.body.description;
 
     if(!roomNumber){
-        res.status(400)
-        throw new Error('Please add value')
+        res.status(401).send("Please add value");
+        // throw new Error('Please add value')
     }
 
     const roomExists = await Room.findOne(req.body)
     console.log(roomExists);
     if (roomExists) {
-        res.status(400)
-        throw new Error('User already exists')
+        return res.status(401).send("Room already exists")
+        // throw new Error('Room already exists')
     }
 
     // const newRoom = new room({roomNumber,size,description});

@@ -58,10 +58,17 @@ const EditRoom = () => {
         console.log(newRoom);
 
         axios.patch(`http://localhost:5000/rooms/update/${id}`, newRoom)
-            .then(res => {
-                console.log(res.data)
-                window.location.href="/room/list"
-            });
+        .then(res => {
+            console.log(res.data)
+            if(res.status === 401){
+                alert(res.data);
+            }
+            else window.location.href="/room/list"
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Room already exist");
+        });
         
     };
 

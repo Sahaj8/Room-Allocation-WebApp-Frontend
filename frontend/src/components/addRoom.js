@@ -50,7 +50,17 @@ const AddRoom = () => {
         console.log(newRoom);
 
         axios.post('http://localhost:5000/rooms/add', newRoom)
-            .then(res => console.log(res.data));
+        .then(res => {
+            console.log("inside add")
+            if(res.status === 401){
+                alert(res.data);
+            }
+            else window.location.href="/room/list"
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Room already exist");
+        });
         
     };
 

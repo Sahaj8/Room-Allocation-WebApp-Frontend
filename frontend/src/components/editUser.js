@@ -91,7 +91,14 @@ const EditUser = () => {
         axios.patch(`http://localhost:5000/users/update/${id}`, newUser)
             .then(res => {
                 console.log(res.data)
-                window.location.href="/user/list"
+                if(res.status === 401){
+                    alert(res.data);
+                }
+                else window.location.href="/user/list"
+            })
+            .catch(err => {
+                console.log(err);
+                alert("User already exist");
             });
         
     };
