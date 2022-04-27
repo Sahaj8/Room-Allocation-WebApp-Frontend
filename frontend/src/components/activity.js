@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import "bootstrap/dist/css/bootstrap.min.css"
+import { Button, Card } from 'react-bootstrap';
 
 const Activity = (activity) => {
     const [isAuthenticated, setisAuthenticated] = useState(false);
@@ -34,15 +36,29 @@ const Activity = (activity) => {
     console.log(activity);
     return (
         <>     
-            <h4>{activity.applicant}</h4>
-            <h4>{activity.activity}</h4>
-            <h4>{activity.roomNumber}</h4>
-            <h4>{activity.status}</h4>
-            <h4>{activity.createdAt}</h4> 
-            <h4>{activity.startDateTime}</h4>
-            <h4>{activity.endDateTime}</h4>
-            <button>Approve</button>
-            <button>Decline</button>
+            <Card style={{ width: '100%', display:'flex', flexDirection: 'row', backgroundColor: "rgb(247,247,247)"}}>
+            <Card.Body>
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item"><b>Applicant:</b> {activity.applicant}</li>
+                    <li className="list-group-item"><b>Room Number:</b> {activity.roomNumber}</li>
+                    <li className="list-group-item"><b>Activity:</b> {activity.activity}</li>
+                    <li className="list-group-item"><b>Start Time:</b> {new Date(activity.startDateTime).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})}</li>
+                    <li className="list-group-item"><b>End Time:</b> {new Date(activity.endDateTime).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'})}</li>
+                    <li className="list-group-item"><b>Requested At:</b> {activity.createdAt}</li>
+                    <li className="list-group-item"><b>Status:</b> {activity.status}</li>
+                </ul>
+                {
+                    isAuthenticated && isAdmin ?
+                    <>
+                        <Button variant="success">Approve</Button>
+                        <Button variant="danger">Decline</Button>
+                    </>
+                    :
+                    <></>
+                }
+                
+            </Card.Body>
+            </Card>
         </>
     );
 }

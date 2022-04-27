@@ -71,8 +71,7 @@ export const NavBar = () => {
               <Link to="/addActivity" className="nav-link">Request Room</Link>
               </li>
                 <li className="navbar-item">
-                {/* <Link to="/" className="nav-link">Logout</Link> */}
-                <button onClick={handlelogout}>Logout</button>
+                <Link to="/" className="nav-link" onClick={handlelogout}>Logout</Link>
                 </li>
               </>
               :
