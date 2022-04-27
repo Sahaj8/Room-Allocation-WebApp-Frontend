@@ -1,10 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const LoginUser = () => {
     const [name, setName] = useState("");
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
+    let loading = false;
+    
+    useEffect( () =>{
+        const token = localStorage.getItem('token');
+        if(token)
+        {
+            axios.get("http://localhost:5000/users/", {
+                headers: { Authorization: token },
+              })
+                .then((res) => {
+                    console.log(res.data.user);
+                    if(res.status===201)
+                    {
+                        window.location.href="/";
+                        alert("Already Logged In");
+                    }
+                    else
+                    {   
+                        alert("Token invalid!");
+                        loading=true;
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    // console.log(res.status);
+                    alert("Internal Server Error");
+                })
+        }
+        loading=true;
+    },[])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,32 +57,39 @@ const LoginUser = () => {
 
     return (
         <div className="container">
-            <h2>Login User</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="inputUserName" className="form-label">Username</label>
-                    <input 
-                        type='text' className="form-control" id="inputUserName" placeholder="Username"
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label" htmlFor="inputEmail">Email</label>
-                    <input 
-                        type="email" 
-                        className="form-control" id="inputEmail" placeholder="Email"
-                        onChange={(e) => setMail(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="inputPassword" className="form-label">Password</label>
-                    <input 
-                        type='password' className="form-control" id="inputPassword" placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Login</button>
-            </form>
+            {
+                loading?
+                <>
+                <h2>Login User</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="inputUserName" className="form-label">Username</label>
+                        <input 
+                            type='text' className="form-control" id="inputUserName" placeholder="Username"
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label" htmlFor="inputEmail">Email</label>
+                        <input 
+                            type="email" 
+                            className="form-control" id="inputEmail" placeholder="Email"
+                            onChange={(e) => setMail(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="inputPassword" className="form-label">Password</label>
+                        <input 
+                            type='password' className="form-control" id="inputPassword" placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary">Login</button>
+                </form>
+                </>
+                :
+                <></>
+            }
         </div>
     );
 }
