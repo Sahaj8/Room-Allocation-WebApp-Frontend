@@ -64,13 +64,12 @@ export const NavBar = () => {
             <></>
               
           }
-          <li className="navbar-item">
-            <Link to="/addActivity" className="nav-link">Request Room</Link>
-            </li>
           {
               isAuthenticated ?
-              <>
-                
+              <>      
+            <li className="navbar-item">
+              <Link to="/addActivity" className="nav-link">Request Room</Link>
+              </li>
                 <li className="navbar-item">
                 {/* <Link to="/" className="nav-link">Logout</Link> */}
                 <button onClick={handlelogout}>Logout</button>

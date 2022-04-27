@@ -10,61 +10,78 @@ const ActivityList = () => {
     const [isAuthenticated, setisAuthenticated] = useState(false);
     const [isAdmin, setisAdmin] = useState(false);
     const [name, setName] = useState("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getActivityList = async () => {
             const response = await axios.get("http://localhost:5000/activity");
             const activityData = await response.data;
             setActivityList(activityData);
-        };
-        getActivityList();
-
-        const token = localStorage.getItem('token');
-        if(token)
-        {
-            axios.get("http://localhost:5000/users/", {
-                headers: { Authorization: token },
-              })
-                .then((res) => {
-                    if(res.data.user){
-                        setisAuthenticated(true);
-                        setisAdmin(res.data.user.isAdmin);
-                        if(isAuthenticated && isAdmin) {
-                            setCurrentFilter("Pending")
-                        }
-                        else if(isAuthenticated) {
-                            setCurrentFilter("Approved")
-                        }
+            const token = localStorage.getItem('token');
+            if(token) {
+                const userDataresponse = await axios.get("http://localhost:5000/users/", {headers: { Authorization: token },})
+                const userData = await userDataresponse.data.user;
+                if(userData) {
+                    setisAuthenticated(true);
+                    setisAdmin(userData.isAdmin); 
+                    setName(userData.username);
+                    if(userData.isAdmin) {
+                        setCurrentFilter("Pending")
+                        setLoading(true);
                     }
                     else {
-                        setisAuthenticated(false);
-                        setCurrentFilter("All");
+                        setCurrentFilter("Approved")
+                        setLoading(true);
                     }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    alert("Internal Server Error");
-                })
-        }
-        else{
-            setisAuthenticated(false);
-        }
-        console.log("Activity Filter", currentFilter);
+                }
+                else {
+                    setCurrentFilter("All")
+                    setLoading(true);
+                }
+            }
+            else {
+                setCurrentFilter("All")
+                setLoading(true);
+            }
+        };
+        getActivityList();
     }, []);
-    console.log(activityList);
+    console.log(activityList, isAuthenticated, isAdmin);
     return (
         <>       
+            <div className="mb-3">
+                    <label htmlFor="Filter Requests" className="form-label">Filter Requests</label>
+                    <select className="form-control" name="country" value={currentFilter} 
+                        onChange={(e) => setCurrentFilter(e.target.value)}>  
+                        {filterOption.map((e, key) => {  
+                            return <option key={key} value={e}>{e}</option>;  
+                        })}  
+                    </select> 
+                </div>
             {
-                currentFilter == "All" ?
-                activityList.map(function(object, index){
-                    return <Activity {...object} key={index}/>
-                })
+                loading ? 
+                <>
+                    {
+                        currentFilter == "My Requests" ?
+                        activityList.filter(activity => (activity.applicant == name)).map(function(object, index) {
+                            console.log("here", object.status, currentFilter)
+                            return <Activity {...object} key={index} />
+                        })
+                        :
+                        currentFilter == "All" ?
+                            activityList.map(function(object, index){
+                                return <Activity {...object} key={index}/>
+                            })
+                            :
+                            activityList.filter(activity => (activity.status == currentFilter)).map(function(object, index) {
+                                console.log("here", object.status, currentFilter)
+                                return <Activity {...object} key={index} />
+                            })
+                    }
+                </>
                 :
-                activityList.filter(activity => (activity.status == currentFilter)).map(function(object, index) {
-                    console.log("here", object.status, currentFilter)
-                    return <Activity {...object} key={index} />
-                })
-            }             
+                <></>
+                }             
         </>
     );
 }
