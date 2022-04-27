@@ -33,6 +33,7 @@ const Activity = (activity) => {
         }
     },[])
 
+    
     console.log(activity);
     return (
         <>     

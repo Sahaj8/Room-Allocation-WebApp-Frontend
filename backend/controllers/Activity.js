@@ -23,3 +23,17 @@ export const addActivity = async (req, res) => {
         res.status(400).json({message: error.message});
     }
 }
+
+export const updateActivity = async (req,res) => {
+    try {
+        const {id} = req.params;
+
+        const updateActivity = await User.findByIdAndUpdate(id, req.body, {new:true});
+
+        console.log(updatedActivity);
+        res.status(201).json(updatedActivity);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
