@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-const UserList = () => {
-    const [userList, setUserList] = useState([]);
+const RoomList = () => {
+    const [roomList, setRoomList] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect( ()=>{
@@ -22,11 +22,11 @@ const UserList = () => {
                             alert("Permision denied!")
                         }
                         else {
-                            axios.get("http://localhost:5000/users/list")
+                            axios.get("http://localhost:5000/rooms/list")
                                 .then((res) => {
                                     if(res.status === 201){
                                         console.log(res.data);
-                                        setUserList(res.data);
+                                        setRoomList(res.data);
                                         setLoading(true);
                                     }
                                     else console.log("Server error!");
@@ -48,9 +48,9 @@ const UserList = () => {
         else  window.location.href="/login";
     },[])
 
-    const deleteuser = async (id) => {
+    const deleteroom = async (id) => {
         console.log(id);
-        const res2 = await axios.delete(`http://localhost:5000/users/delete/${id}`);
+        const res2 = await axios.delete(`http://localhost:5000/rooms/delete/${id}`);
 
         const deletedata = await res2.data;
         console.log(deletedata);
@@ -61,7 +61,7 @@ const UserList = () => {
             console.log("user deleted");
             // setDLTdata(deletedata)
             // getdata();
-            setUserList(userList.filter(ul => ul._id !== id))
+            setRoomList(roomList.filter(rl => rl._id !== id))
         }
 
     }
@@ -74,16 +74,16 @@ const UserList = () => {
             <div className="mt-5">
                 <div className="container">
                     <div className="add_btn mt-2 mb-2">
-                        <Link to="/user/add" className="btn btn-primary">Add User</Link>
+                        <Link to="/room/add" className="btn btn-primary">Add Room</Link>
                     </div>
 
                     <table className="table">
                         <thead>
                             <tr className="table-dark">
                                 <th scope="col">id</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">email</th>
-                                <th scope="col">Description</th>
+                                <th scope="col">Room</th>
+                                {/* <th scope="col">email</th> */}
+                                {/* <th scope="col">Description</th> */}
                                 {/* <th scope="col">isAdmin</th> */}
                                 <th scope="col"></th>
                             </tr>
@@ -91,20 +91,20 @@ const UserList = () => {
                         <tbody>
 
                             {
-                                userList.map((element, id) => {
+                                roomList.map((element, id) => {
                                     return (
                                         <>
                                             <tr>
                                                 <th scope="row">{id + 1}</th>
-                                                <td>{element.username}</td>
-                                                <td>{element.usermail}</td>
-                                                <td>{element.description}</td>
+                                                <td>{element.roomNumber}</td>
+                                                {/* <td>{element.usermail}</td> */}
+                                                {/* <td>{element.description}</td> */}
                                                 {/* <td>{element.isAdmin}</td> */}
                                                 <td className="d-flex justify-content-between">
                                                     {/* <NavLink to={`view/${element._id}`}> <button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink> */}
-                                                    <Link to={`/user/edit/${element._id}`}>  <button className="btn btn-primary">Edit</button></Link>
+                                                    <Link to={`/room/edit/${element._id}`}>  <button className="btn btn-primary">Edit</button></Link>
                                                     {/* <button className="btn btn-primary">Edit</button> */}
-                                                    <button className="btn btn-danger" onClick={() => deleteuser(element._id)}>Delete</button>
+                                                    <button className="btn btn-danger" onClick={() => deleteroom(element._id)}>Delete</button>
                                                 </td>
                                             </tr>
                                         </>
@@ -123,4 +123,4 @@ const UserList = () => {
     );
 }
 
-export default UserList;
+export default RoomList;

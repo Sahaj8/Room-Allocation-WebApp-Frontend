@@ -1,8 +1,46 @@
-import { room } from "../models/Room.js"
+import { Room } from "../models/Room.js"
+
+export const roomList = async (req,res) => {
+    try {
+        const roomdata = await Room.find();
+        res.status(201).json(roomdata)
+        console.log(roomdata);
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
+export const editRoom = async (req,res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params;
+
+        const room = await Room.findById({_id:id});
+        console.log(room);
+        res.status(201).json(room)
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
+export const updateRoom = async (req,res) => {
+    try {
+        const {id} = req.params;
+
+        const updatedRoom = await Room.findByIdAndUpdate(id,req.body,{new:true});
+
+        console.log(updatedRoom);
+        res.status(201).json(updatedRoom);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
 
 export const getRoom = async (req, res) => {
     try {
-        const rooms = await room.find();
+        const rooms = await Room.find();
         console.log(rooms);
         res.status(200).json(rooms);
     }
@@ -22,7 +60,7 @@ export const addRoom = async (req, res) => {
         throw new Error('Please add value')
     }
 
-    const roomExists = await User.findOne(req.body)
+    const roomExists = await Room.findOne(req.body)
     console.log(roomExists);
     if (roomExists) {
         res.status(400)
@@ -30,13 +68,22 @@ export const addRoom = async (req, res) => {
     }
 
     // const newRoom = new room({roomNumber,size,description});
-    const newRoom = new room(req.body);
+    const newRoom = new Room(req.body);
 
     newRoom.save()
         .then(() => res.json('User added!'))
         .catch(err => res.status(400).json('Error: ' + err.message));
 }
 
-export const deleteRoom = (req, res) => {
-    res.send('It works');
+export const deleteRoom = async (req, res) => {
+    // res.send('It works');
+    try {
+        const {id} = req.params;
+        const deletedRoom = await Room.findByIdAndDelete({_id:id})
+        console.log(deletedRoom);
+        res.status(201).json(deletedRoom);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
 }

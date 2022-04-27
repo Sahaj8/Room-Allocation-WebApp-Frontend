@@ -21,9 +21,9 @@ export const editUser = async (req,res) => {
         console.log(req.params);
         const {id} = req.params;
 
-        const userindividual = await User.findById({_id:id});
-        console.log(userindividual);
-        res.status(201).json(userindividual)
+        const user = await User.findById({_id:id});
+        console.log(user);
+        res.status(201).json(user)
 
     } catch (error) {
         res.status(401).json(error);
@@ -34,10 +34,10 @@ export const updateUser = async (req,res) => {
     try {
         const {id} = req.params;
 
-        const updateduser = await User.findByIdAndUpdate(id,req.body,{new:true});
+        const updatedUser = await User.findByIdAndUpdate(id,req.body,{new:true});
 
-        console.log(updateduser);
-        res.status(201).json(updateduser);
+        console.log(updatedUser);
+        res.status(201).json(updatedUser);
 
     } catch (error) {
         res.status(401).json(error);
@@ -115,10 +115,9 @@ export const deleteUser = async (req, res) => {
     // res.send('It works');
     try {
         const {id} = req.params;
-
-        const deletuser = await users.findByIdAndDelete({_id:id})
-        console.log(deletuser);
-        res.status(201).json(deletuser);
+        const deletedUser = await User.findByIdAndDelete({_id:id})
+        console.log(deletedUser);
+        res.status(201).json(deletedUser);
 
     } catch (error) {
         res.status(401).json(error);

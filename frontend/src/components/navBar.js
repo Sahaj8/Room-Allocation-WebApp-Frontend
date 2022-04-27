@@ -54,10 +54,10 @@ export const NavBar = () => {
           {isAuthenticated && isAdmin ?
             <>
                 <li className="navbar-item">
-              <Link to="/room/add" className="nav-link">Add Room</Link>
+              <Link to="/room/list" className="nav-link">Add Room</Link>
               </li>
               <li className="navbar-item">
-              <Link to="/user/add" className="nav-link">Add User</Link>
+              <Link to="/user/list" className="nav-link">Add User</Link>
               </li>
             </>
             :
