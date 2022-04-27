@@ -8,6 +8,7 @@ import LoginUser from "./components/loginUser";
 import ActivityList from "./components/activityList";
 import AddActivity from "./components/addActivity";
 import { NavBar } from "./components/navBar";
+import UserList from "./components/userList";
 
 const App = () => {
     return (
@@ -18,8 +19,9 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<ActivityList/>} exact />
                 <Route path="/addActivity" element={<AddActivity/>} exact />
-                <Route path="/user" element={<AddUser/>} exact />
-                <Route path="/room" element={<AddRoom/>} exact />
+                <Route path="/user/add" element={<AddUser/>} exact />
+                <Route path="/user/list" element={<UserList/>} exact />
+                <Route path="/room/add" element={<AddRoom/>} exact />
                 <Route path="/login" element={<LoginUser/>} exact />
             </Routes>
         </div>

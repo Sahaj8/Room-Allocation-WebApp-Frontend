@@ -6,6 +6,44 @@ import dotenv from "dotenv"
 dotenv.config();
 // const bcrypt = require('bcryptjs')
 
+export const userList = async (req,res) => {
+    try {
+        const userdata = await User.find();
+        res.status(201).json(userdata)
+        console.log(userdata);
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
+export const editUser = async (req,res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params;
+
+        const userindividual = await User.findById({_id:id});
+        console.log(userindividual);
+        res.status(201).json(userindividual)
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
+export const updateUser = async (req,res) => {
+    try {
+        const {id} = req.params;
+
+        const updateduser = await User.findByIdAndUpdate(id,req.body,{new:true});
+
+        console.log(updateduser);
+        res.status(201).json(updateduser);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
 export const getUser = async (req, res) => {
     let token
     console.log("inside getuser");
@@ -73,8 +111,18 @@ export const addUser = async (req, res) => {
     // return res.json({msg:"we are inside"});
 }
 
-export const deleteUser = (req, res) => {
-    res.send('It works');
+export const deleteUser = async (req, res) => {
+    // res.send('It works');
+    try {
+        const {id} = req.params;
+
+        const deletuser = await users.findByIdAndDelete({_id:id})
+        console.log(deletuser);
+        res.status(201).json(deletuser);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
 }
 
 export const loginUser = async (req, res) => {

@@ -5,7 +5,7 @@ const LoginUser = () => {
     const [name, setName] = useState("");
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
-    let loading = false;
+    const [loading, setLoading] = useState(false);
     
     useEffect( () =>{
         const token = localStorage.getItem('token');
@@ -24,7 +24,7 @@ const LoginUser = () => {
                     else
                     {   
                         alert("Token invalid!");
-                        loading=true;
+                        setLoading(true);
                     }
                 })
                 .catch((err) => {
@@ -33,7 +33,7 @@ const LoginUser = () => {
                     alert("Internal Server Error");
                 })
         }
-        loading=true;
+        setLoading(true);
     },[])
 
     const handleSubmit = async (e) => {
@@ -50,6 +50,7 @@ const LoginUser = () => {
             const res = await axios.post('http://localhost:5000/users/login', newUser);
             localStorage.setItem("token", res.data.token); 
             console.log(res.data)
+            window.location.href="/";
         } catch (error) {
             console.log(error.response.data.msg);
         }

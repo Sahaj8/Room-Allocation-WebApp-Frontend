@@ -5,7 +5,7 @@ const AddRoom = () => {
     const [number, setNumber] = useState("");
     // const [size, setSize] = useState(0);
     // const [desc, setDesc] = useState("");
-    let loading=false;
+    const [loading, setLoading] = useState(false);
 
     useEffect( ()=>{
         const token = localStorage.getItem('token');
@@ -22,7 +22,7 @@ const AddRoom = () => {
                             window.location.href="/";
                             alert("Permision denied!")
                         }
-                        else loading=true;
+                        else setLoading(true);
                     }
                     else
                     {   

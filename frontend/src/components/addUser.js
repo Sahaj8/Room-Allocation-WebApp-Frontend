@@ -5,7 +5,7 @@ const AddUser = () => {
     const [name, setName] = useState("");
     const [mail, setMail] = useState("");
     const [desc, setDesc] = useState("");
-    let loading=false;
+    const [loading, setLoading] = useState(false);
 
     useEffect( ()=>{
         const token = localStorage.getItem('token');
@@ -22,7 +22,7 @@ const AddUser = () => {
                             window.location.href="/";
                             alert("Permision denied!")
                         }
-                        else loading=true;
+                        else setLoading(true);
                     }
                     else
                     {   

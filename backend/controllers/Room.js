@@ -11,7 +11,7 @@ export const getRoom = async (req, res) => {
     }
 }
 
-export const addRoom = (req, res) => {
+export const addRoom = async (req, res) => {
     // res.send('It works');
     const roomNumber = req.body.roomNumber;
     // const size = req.body.size;
