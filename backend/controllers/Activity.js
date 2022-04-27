@@ -20,7 +20,7 @@ export const addActivity = async (req, res) => {
         res.status(201).json(newActivity);
     }
     catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(401).json({message: error.message});
     }
 }
 
@@ -28,10 +28,23 @@ export const updateActivity = async (req,res) => {
     try {
         const {id} = req.params;
 
-        const updateActivity = await User.findByIdAndUpdate(id, req.body, {new:true});
+        const updatedActivity = await Activity.findByIdAndUpdate(id, req.body, {new:true});
 
         console.log(updatedActivity);
         res.status(201).json(updatedActivity);
+
+    } catch (error) {
+        res.status(401).json(error);
+    }
+}
+
+export const deleteActivity = async (req, res) => {
+    // res.send('It works');
+    try {
+        const {id} = req.params;
+        const deletedActivity = await Activity.findByIdAndDelete({_id:id})
+        console.log(deletedActivity);
+        res.status(201).json(deletedActivity);
 
     } catch (error) {
         res.status(401).json(error);

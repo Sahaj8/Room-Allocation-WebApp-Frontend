@@ -33,6 +33,57 @@ const Activity = (activity) => {
         }
     },[])
 
+    const handleApprove = () => {
+        const newActivity = {...activity};
+        newActivity.status = "Approved";
+        console.log("handle");
+        console.log(newActivity);
+        axios.patch(`http://localhost:5000/activity/update/${newActivity._id}`, newActivity)
+            .then(res => {
+                console.log(res.data)
+                if(res.status === 401){
+                    alert(res.data);
+                }
+                else window.location.href="/"
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Activity error");
+            });
+    }
+
+    const handleDecline = () => {
+        const newActivity = {...activity};
+        newActivity.status = "Declined";
+        axios.patch(`http://localhost:5000/activity/update/${newActivity._id}`, newActivity)
+            .then(res => {
+                console.log(res.data)
+                if(res.status === 401){
+                    alert(res.data);
+                }
+                else window.location.href="/"
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Activity error");
+            });
+    }
+
+    const handleDelete = () => {
+        axios.delete(`http://localhost:5000/activity/delete/${activity._id}`)
+            .then(res => {
+                console.log(res.data)
+                if(res.status === 401){
+                    alert(res.data);
+                }
+                else window.location.href="/"
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Activity error");
+            });
+    }
+
     
     console.log(activity);
     return (
@@ -49,10 +100,15 @@ const Activity = (activity) => {
                     <li className="list-group-item"><b>Status:</b> {activity.status}</li>
                 </ul>
                 {
-                    isAuthenticated && isAdmin ?
+                    isAuthenticated && isAdmin && activity.status==="Pending" ?
                     <>
-                        <Button variant="success">Approve</Button>
-                        <Button variant="danger">Decline</Button>
+                        <Button variant="success" onClick={handleApprove}>Approve</Button>
+                        <Button variant="danger" onClick={handleDecline}>Decline</Button>
+                    </>
+                    :
+                    isAuthenticated && activity.status==="Declined"?
+                    <>
+                        <Button variant="danger" onClick={handleDelete}>Delete</Button>
                     </>
                     :
                     <></>

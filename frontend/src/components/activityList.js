@@ -72,7 +72,8 @@ const ActivityList = () => {
                         :
                         currentFilter == "All" ?
                             activityList.map(function(object, index){
-                                return <Activity {...object} key={index}/>
+                                if(object.status != "Declined")
+                                    return <Activity {...object} key={index}/>
                             })
                             :
                             activityList.filter(activity => (activity.status == currentFilter)).map(function(object, index) {
