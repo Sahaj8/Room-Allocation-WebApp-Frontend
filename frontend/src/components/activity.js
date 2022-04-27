@@ -33,7 +33,7 @@ const Activity = (activity) => {
 
     console.log(activity);
     return (
-        <>                    
+        <>     
             <h4>{activity.applicant}</h4>
             <h4>{activity.activity}</h4>
             <h4>{activity.roomNumber}</h4>
