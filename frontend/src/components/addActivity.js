@@ -28,12 +28,12 @@ const AddActivity = () => {
             applicant: activityData.applicant,
             activity: activityData.activity,
             roomNumber: activityData.roomNumber, 
-            status: "pending",
+            status: "Pending",
             createdAt: new Date(),
             startDateTime: startDateTime,
             endDateTime: endDateTime
         }
-        axios.post('http://localhost:5000/activity/add', activityData)
+        axios.post('http://localhost:5000/activity/add', newActivity)
             .then(res => console.log(res.data))
             .catch(error => console.log(error)); 
     };
