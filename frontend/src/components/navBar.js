@@ -12,7 +12,7 @@ export const NavBar = () => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:5000/users/", {
+            axios.get("/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {

@@ -12,7 +12,7 @@ const Activity = (activity) => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:5000/users/", {
+            axios.get("/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {
@@ -38,7 +38,7 @@ const Activity = (activity) => {
         newActivity.status = "Approved";
         console.log("handle");
         console.log(newActivity);
-        axios.patch(`http://localhost:5000/activity/update/${newActivity._id}`, newActivity)
+        axios.patch(`/activity/update/${newActivity._id}`, newActivity)
             .then(res => {
                 console.log(res.data)
                 if(res.status === 401){
@@ -55,7 +55,7 @@ const Activity = (activity) => {
     const handleDecline = () => {
         const newActivity = {...activity};
         newActivity.status = "Declined";
-        axios.patch(`http://localhost:5000/activity/update/${newActivity._id}`, newActivity)
+        axios.patch(`/activity/update/${newActivity._id}`, newActivity)
             .then(res => {
                 console.log(res.data)
                 if(res.status === 401){
@@ -70,7 +70,7 @@ const Activity = (activity) => {
     }
 
     const handleDelete = () => {
-        axios.delete(`http://localhost:5000/activity/delete/${activity._id}`)
+        axios.delete(`/activity/delete/${activity._id}`)
             .then(res => {
                 console.log(res.data)
                 if(res.status === 401){

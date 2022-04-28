@@ -11,7 +11,7 @@ const EditRoom = () => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:5000/users/", {
+            axios.get("/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {
@@ -23,7 +23,7 @@ const EditRoom = () => {
                             alert("Permision denied!")
                         }
                         else{
-                            axios.get(`http://localhost:5000/rooms/edit/${id}`)
+                            axios.get(`/rooms/edit/${id}`)
                                 .then((res) => {
                                     editRoom(res.data);
                                     console.log(room);
@@ -57,7 +57,7 @@ const EditRoom = () => {
 
         console.log(newRoom);
 
-        axios.patch(`http://localhost:5000/rooms/update/${id}`, newRoom)
+        axios.patch(`/rooms/update/${id}`, newRoom)
         .then(res => {
             console.log(res.data)
             if(res.status === 401){

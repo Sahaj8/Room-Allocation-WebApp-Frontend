@@ -11,7 +11,7 @@ const AddRoom = () => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:5000/users/", {
+            axios.get("/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {
@@ -49,7 +49,7 @@ const AddRoom = () => {
 
         console.log(newRoom);
 
-        axios.post('http://localhost:5000/rooms/add', newRoom)
+        axios.post('/rooms/add', newRoom)
         .then(res => {
             console.log("inside add")
             if(res.status === 401){

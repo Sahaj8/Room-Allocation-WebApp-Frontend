@@ -29,7 +29,7 @@ const EditUser = () => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("http://localhost:5000/users/", {
+            axios.get("/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {
@@ -41,7 +41,7 @@ const EditUser = () => {
                             alert("Permision denied!")
                         }
                         else{
-                            axios.get(`http://localhost:5000/users/edit/${id}`)
+                            axios.get(`/users/edit/${id}`)
                                 .then((res) => {
                                     editUser(res.data);
                                     // setdata(res.data);
@@ -88,7 +88,7 @@ const EditUser = () => {
 
         console.log(newUser);
 
-        axios.patch(`http://localhost:5000/users/update/${id}`, newUser)
+        axios.patch(`/users/update/${id}`, newUser)
             .then(res => {
                 console.log(res.data)
                 if(res.status === 401){

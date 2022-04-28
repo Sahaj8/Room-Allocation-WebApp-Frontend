@@ -15,12 +15,12 @@ const ActivityList = () => {
 
     useEffect(() => {
         const getActivityList = async () => {
-            const response = await axios.get("http://localhost:5000/activity");
+            const response = await axios.get("/activity");
             const activityData = await response.data;
             setActivityList(activityData);
             const token = localStorage.getItem('token');
             if(token) {
-                const userDataresponse = await axios.get("http://localhost:5000/users/", {headers: { Authorization: token },})
+                const userDataresponse = await axios.get("/users/", {headers: { Authorization: token },})
                 const userData = await userDataresponse.data.user;
                 if(userData) {
                     setisAuthenticated(true);
