@@ -11,7 +11,7 @@ const AddRoom = () => {
         const token = localStorage.getItem('token');
         if(token)
         {
-            axios.get("/users/", {
+            axios.get("https://e022-103-156-19-229.in.ngrok.io/users/", {
                 headers: { Authorization: token },
               })
                 .then((res) => {
@@ -49,7 +49,7 @@ const AddRoom = () => {
 
         console.log(newRoom);
 
-        axios.post('/rooms/add', newRoom)
+        axios.post('https://e022-103-156-19-229.in.ngrok.io/rooms/add', newRoom)
         .then(res => {
             console.log("inside add")
             if(res.status === 401){
