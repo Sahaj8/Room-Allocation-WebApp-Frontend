@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/*"
-  to = "https://e022-103-156-19-229.in.ngrok.io/"
+  to = "/index.html"
   status = 200
   force = true
